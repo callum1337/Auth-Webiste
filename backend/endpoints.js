@@ -34,7 +34,6 @@ router.post('/users/login', (req, res, next) => {
         if (!checkPassword(password, results[0].password)) {
             return res.status(401).send('Password Is Wrong')
         }
-        req.session.user = results[0];
         res.status(200).send('Login Successful')
     })
 });
