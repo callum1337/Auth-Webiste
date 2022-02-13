@@ -36,7 +36,6 @@ setInterval(function() {
     connection.query('SELECT * FROM users', function(err, result) {
         if (err) throw err;
         users = result
-        console.log(users)
     });
 }, 10000);
 

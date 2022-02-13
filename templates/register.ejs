@@ -13,8 +13,6 @@
 			$('#messagebox').hide();
 			$("#register-form").submit((event) => {
 				event.preventDefault();
-				console.log($('#register-form').serialize())
-				
 				$.ajax({
 					
 					type: 'POST',

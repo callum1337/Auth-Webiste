@@ -1,16 +1,16 @@
 <section class="navigation">
     <div class="nav-container">
       <div class="brand">
-        <a href="#!">Callum.Systems</a>
+        <a>Callum.Systems</a>
       </div>
       <nav>
         <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
         <ul class="nav-list">
           <li>
-            <a href="#!">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
-            <a href="#!">Discord</a>
+            <a href="/discord">Discord</a>
           </li>
           <% if(loggedin){ %>
             <li>
@@ -20,17 +20,17 @@
                   <a href="#!">Public Profile</a>
                 </li>
                 <li>
-                  <a href="#!">Settings</a>
+                  <a href="/settings">Settings</a>
                 </li>
                 <li>
-                  <a href="logout">Log Out</a>
+                  <a href="/logout">Log Out</a>
                 </li>
               </ul>
             </li>
             <li>
               <% } else{ %>  
                 <li>
-                  <a href="#!">Login</a>
+                  <a href="/login">Login</a>
                   </li>
              <% } %>
         </ul>
