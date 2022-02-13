@@ -22,8 +22,21 @@ router.get('/login', (req, res, next) => {
 //GET OBJECTS\
 //Login Get Method
 router.post('/users/login', (req, res, next) => {
-    console.log(req.body)
-    res.send('test')
+    const email = req.body.email;
+    const password = req.body.password;
+    connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err) {
+            return res.status(500).send('Internal Error')
+        }
+        if (results.length === 0) {
+            return res.status(404).send('User Not Found')
+        }
+        if (!checkPassword(password, results[0].password)) {
+            return res.status(401).send('Password Is Wrong')
+        }
+        req.session.user = results[0];
+        res.status(200).send('Login Successful')
+    })
 });
 
 
@@ -61,15 +74,6 @@ router.post('/users/add', function(req, res) {
     })
 });
 
-
-
-//add ip rate limit
-// router.post('/users/add', function(req, res) {
-//     const user = req.body.user
-//     const password = req.body.password
-//     //validate password
-//     if (password.length < 8) {
-        
 
 module.exports = router;
 

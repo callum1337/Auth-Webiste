@@ -340,3 +340,12 @@ article {
   margin: 0 auto;
   padding: 10px;
 }
+
+
+.tableofusers{
+  border-collapse: collapse;
+  padding: 10px;
+  word-spacing: 10px;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
