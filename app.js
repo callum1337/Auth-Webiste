@@ -1,12 +1,7 @@
 const express = require('express')
-const auth = require('basic-auth')
 const app = express()
 const bodyParser = require('body-parser')
-var users = {}
-const connection = require('./backend/connect_sql.js')
-const ejs = require('ejs');
 const path = require('path');
-const http = require('http');
 
 
 
@@ -29,13 +24,6 @@ app.listen(3000, () => {
     console.log('listening on port 3000')
 })
 
-
-setInterval(function() {
-    connection.query('SELECT * FROM users', function(err, result) {
-        if (err) throw err;
-        users = result
-    });
-}, 10000);
 
 
 
