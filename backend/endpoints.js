@@ -1,4 +1,3 @@
-//router.get router.post and router.get methods from app.js
 const express = require('express');
 const router = express.Router();
 const connection = require('./connect_sql.js');

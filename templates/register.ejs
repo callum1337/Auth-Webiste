@@ -2,7 +2,7 @@
 <html>
 
 
-	<title>Login Register App</title>
+	<title>Auth-Website</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -25,6 +25,9 @@
 					console.log(data)
 					$("#messagebox").show()
 					$("#messagebox").html(data.message)
+					setTimeout(() => {
+						window.location.href = "/login"
+					}, 3000)
 				}).fail((data) => {
 					console.log(data)
 					$("#messagebox").show()
@@ -32,40 +35,34 @@
 				})
 			});
 		});
-		(function($) { // Begin jQuery
-			$(function() { // DOM ready
-			  // If a link has a dropdown, add sub menu toggle.
+		(function($) {
+			$(function() {
 			  $('nav ul li a:not(:only-child)').click(function(e) {
 				$(this).siblings('.nav-dropdown').toggle();
-				// Close one dropdown when selecting another
 				$('.nav-dropdown').not($(this).siblings()).hide();
 				e.stopPropagation();
 			  });
-			  // Clicking away from dropdown will remove the dropdown class
 			  $('html').click(function() {
 				$('.nav-dropdown').hide();
 			  });
-			  // Toggle open and close nav styles on click
 			  $('#nav-toggle').click(function() {
 				$('nav ul').slideToggle();
 			  });
-			  // Hamburger to X toggle
 			  $('#nav-toggle').on('click', function() {
 				this.classList.toggle('active');
 			  });
-			}); // end DOM ready
-		  })(jQuery); // end jQuery
+			});
+		  })(jQuery);
 
 	</script>
 </head>
 <body>
-	<%-include("partial/header", {loggedin:'test'}) %>
+	<%-include("partial/header", {loggedin:''}) %>
 	<div class='oaerror info' id="messagebox"></div>
 	<div class="login-box">
 		<h2>Register</h2>
 		<form id="register-form" method="post" autocomplete="off">
 			<div class="user-box">
-				<!--Add Email Input With Vailidation-->
 				<input type="email" name="email" placeholder="" required="" pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$">
 	
 				<label>Email</label>

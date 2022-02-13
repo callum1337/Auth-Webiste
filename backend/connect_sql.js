@@ -4,7 +4,6 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 
-//create connection to sql with dotenv variables
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -14,7 +13,6 @@ const connection = mysql.createConnection({
 
 
 
-//connect to sql database and silence errors
 connection.connect(function(err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
