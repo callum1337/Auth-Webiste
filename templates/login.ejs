@@ -11,13 +11,13 @@
 	<script type="text/javascript">
 		$(document).ready(() => {
 			$('#messagebox').hide();
-			$("#register-form").submit((event) => {
+			$("#login-form").submit((event) => {
 				event.preventDefault();
 				$.ajax({
 					
-					type: 'POST',
-					url: '/users/add',
-					data: $('#register-form').serialize(),
+					type: 'GET',
+					url: '/users/login',
+					data: $('#login-form').serialize(),
 					dataType: "json",
 				}).done((data) => {
 					$("#messagebox").show()
@@ -55,29 +55,24 @@
 	<%-include("partial/header", {loggedin:''}) %>
 	<div class='oaerror info' id="messagebox"></div>
 	<div class="login-box">
-		<h2>Register</h2>
-		<form id="register-form" method="post" autocomplete="off">
+		<h2>Log In</h2>
+		<form id="login-form" method="get" autocomplete="off">
 			<div class="user-box">
 				<input type="email" name="email" placeholder="" required="" pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$">
 	
 				<label>Email</label>
-			</div>
 			<div class="user-box">
-				<input type="Username" name="user" required="">
-				<label>Username</label>
-			</div>
-			<div class="user-box">
-				<input type="password" name="password" placeholder="" required>
+				<input type="password" name="password" placeholder="Password" required>
 				<label>Password</label>
 			</div>
 			<br>
-			<br>
+            <br>
 			<div class="user-box">
-				<input type="submit" name="submit" id="submitform" value="Register" class="btn">
+				<input type="submit" name="submit" id="submitform" value="Log In" class="btn">
 			</div>
 		</form>
-		<a href="/login">Login Instead</a>
-
+        <br>
+        <a href="/register">Sign Up Instead</a>
 	</div>
 
 </body>
