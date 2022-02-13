@@ -35,17 +35,26 @@ router.post('/users/add', function(req, res) {
         const password_hashed = hashPassword(password)
         const email = req.body.email
         connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
-            if (err) res.status(500);
+            if (err) {
+                console.log(err)
+                res.status(500).send('Internal Error')
+
+            }
             if (result.length > 0) {
                 res.status(409).send('User already exists')
             } else {
                 connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
-                    if (err) res.status(500);
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send('Internal Error')
+
+                    }
                     res.status(201).send('User created')
                 })
             }
         })
 })
+
 
 
 
