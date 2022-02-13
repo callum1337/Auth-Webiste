@@ -22,16 +22,13 @@
 					data: $('#register-form').serialize(),
 					dataType: "json",
 				}).done((data) => {
-					console.log(data)
 					$("#messagebox").show()
 					$("#messagebox").html(data.message)
-					setTimeout(() => {
-						window.location.href = "/login"
-					}, 3000)
+					$("#messagebox").fadeOut(5000);
 				}).fail((data) => {
-					console.log(data)
 					$("#messagebox").show()
 					$("#messagebox").html(data.responseText)
+					$("#messagebox").fadeOut(5000);
 				})
 			});
 		});
