@@ -77,30 +77,22 @@ router.get('/users/email/:email', function(req, res) {
 
 //POST OBJECTS
 router.post('/users/add', function(req, res) {
-        var user = req.body.user
-        var password = req.body.password
-        var password = hashPassword(password)
-        var email = req.body.email
+        const user = req.body.user
+        const password = req.body.password
+        const password_hashed = hashPassword(password)
+        const email = req.body.email
         
         connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
             if (err) throw err;
             if (result.length > 0) {
                 res.status(409).send('User already exists')
             } else {
-                connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password, email], function(err, result) {
+                connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
                     if (err) throw err;
                     res.status(201).send('User created')
                 })
             }
         })
-})
-
-//create users table
-router.get('/create_users_table', function(req, res) {
-    connection.query('CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), email VARCHAR(255))', function(err, result) {
-        if (err) throw err;
-        res.send('Users table created')
-    })
 })
 
 
