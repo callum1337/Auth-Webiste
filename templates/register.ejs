@@ -18,7 +18,7 @@
 				$.ajax({
 					
 					type: 'POST',
-					url: 'http://localhost:3000/users/add',
+					url: '/users/add',
 					data: $('#register-form').serialize(),
 					dataType: "json",
 				}).done((data) => {
