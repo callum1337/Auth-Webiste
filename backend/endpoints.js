@@ -57,8 +57,9 @@ router.post('/users/add', function(req, res) {
                     }
                 })
             }
-        }})
-    });
+        }
+    })
+});
 
 
 
