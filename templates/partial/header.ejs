@@ -1,0 +1,39 @@
+<section class="navigation">
+    <div class="nav-container">
+      <div class="brand">
+        <a href="#!">Callum.Systems</a>
+      </div>
+      <nav>
+        <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+        <ul class="nav-list">
+          <li>
+            <a href="#!">Home</a>
+          </li>
+          <li>
+            <a href="#!">Discord</a>
+          </li>
+          <% if(loggedin){ %>
+            <li>
+              <a><%- loggedin %></a>
+              <ul class="nav-dropdown">
+                <li>
+                  <a href="#!">Public Profile</a>
+                </li>
+                <li>
+                  <a href="#!">Settings</a>
+                </li>
+                <li>
+                  <a href="logout">Log Out</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <% } else{ %>  
+                <li>
+                  <a href="#!">Login</a>
+                  </li>
+             <% } %>
+        </ul>
+      </nav>
+    </div>
+  </section>
