@@ -24,7 +24,6 @@ router.get('/login', (req, res, next) => {
     return res.render('login.ejs');
 });
 
-//create a logged_in page with a link to logout and pass a
 
 
 

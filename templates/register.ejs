@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="css/base_log_reg.css">
+	<link rel="stylesheet" href="../css/base_log_reg.css">
 
 	<script type="text/javascript">
 		$(document).ready(() => {
@@ -20,7 +20,7 @@
                     $("#messagebox").show()
                     $("#messagebox").html(data.message)
                     $("#messagebox").fadeOut(5000);
-                    window.location.href = "/login"
+                    window.location.href = "/auth/login"
                 }).catch(console.error);
 			});
 		});
@@ -70,7 +70,7 @@
 				<input type="submit" name="submit" id="submitform" value="Register" class="btn">
 			</div>
 		</form>
-		<a href="/login">Login Instead</a>
+		<a href="/auth/login">Login Instead</a>
 
 	</div>
 
