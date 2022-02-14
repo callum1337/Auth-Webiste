@@ -20,13 +20,15 @@ const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
 
+console.log(hook, Webhook, MessageBuilder);
+
 //add async
 const async = require('async');
 
-router.get('/register', (req, res, next) => {
+router.get('/register', (req, res) => {
 	return res.render('register.ejs');
 });
-router.get('/login', (req, res, next) => {
+router.get('/login', (req, res) => {
     return res.render('login.ejs');
 });
 
