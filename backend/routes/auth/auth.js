@@ -2,6 +2,12 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../../utils/connect_sql.js');
+const expressBrute = require('express-brute');
+const store = new expressBrute.MemoryStore();
+const bruteforce = new expressBrute(store);
+
+
+
 
 //Hashing
 const hash = require('../../utils/hashing.js');
@@ -65,7 +71,7 @@ router.get('/login', (req, res, next) => {
 //});
 
 
-router.post('/users/add', function(req, res) {
+router.post('/users/add',  bruteforce.prevent, function(req, res) {
     const user = req.body.user
     const password = req.body.password
     if (password.length < 8) {
@@ -121,7 +127,7 @@ router.post('/users/add', function(req, res) {
     })
 });
 
-router.get('/users/login', (req, res, next) => {
+router.get('/users/login',  bruteforce.prevent, (req, res, next) => {
     const email = req.query.email;
     const password = req.query.password;
     async.waterfall([
