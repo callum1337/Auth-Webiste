@@ -33,6 +33,39 @@ router.get('/login', (req, res, next) => {
 
 
 
+//router.post('/users/add', function(req, res) {
+//    const user = req.body.user
+//    const password = req.body.password
+//    if (password.length < 8) {
+//        return res.status(400).send('Password must be at least 8 characters long')
+//    }
+//    if (user.length < 3) {
+//        return res.status(400).send('Username must be at least 3 characters long')
+//    }
+//    const password_hashed = hashPassword(password)
+//    const email = req.body.email
+//    connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
+//        if (err) {
+//            console.log(err)
+//            return res.status(500).send('Internal Error')
+//        } else{
+//            if (result.length > 0) {
+//                res.status(409).send('User already exists')
+//            } else {
+//                connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
+//                    if (err) {
+//                        console.log(err)
+//                        return res.status(500).send('Internal Error')
+//                    } else {
+//                        res.status(201).send('User created')
+//                    }
+//                })
+//            }
+//        }
+//    })
+//});
+
+
 router.post('/users/add', function(req, res) {
     const user = req.body.user
     const password = req.body.password
@@ -44,23 +77,47 @@ router.post('/users/add', function(req, res) {
     }
     const password_hashed = hashPassword(password)
     const email = req.body.email
-    connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
+    async.waterfall([
+        function(callback) {
+            connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send('Internal Error')
+                } else{
+                    if (result.length > 0) {
+                        res.status(409).send('User already exists')
+                    } else {
+                        callback(null, user, password_hashed, email)
+                    }
+                }
+            })
+        },
+        function(user, password_hashed, email, callback) {
+            connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send('Internal Error')
+                } else {
+                    callback(null, user)
+                }
+            })
+        },
+        function(user, callback) {
+            connection.query('SELECT * FROM users WHERE username = ?', [user], function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send('Internal Error')
+                } else {
+                    callback(null, result[0])
+                }
+            })
+        }
+    ], function(err, result) {
         if (err) {
             console.log(err)
             return res.status(500).send('Internal Error')
-        } else{
-            if (result.length > 0) {
-                res.status(409).send('User already exists')
-            } else {
-                connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
-                    if (err) {
-                        console.log(err)
-                        return res.status(500).send('Internal Error')
-                    } else {
-                        res.status(201).send('User created')
-                    }
-                })
-            }
+        } else {
+            res.status(201).send('User created')
         }
     })
 });
