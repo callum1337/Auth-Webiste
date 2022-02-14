@@ -1,7 +1,7 @@
 //Express
 const express = require('express');
 const router = express.Router();
-const connection = require('./connect_sql.js');
+const connection = require('./utils/connect_sql.js');
 
 //Hashing
 const hash = require('./utils/hashing.js');
