@@ -18,7 +18,6 @@
 					data: $('#login-form').serialize(),
 					dataType: "json",
 				}).done((data) => {
-					location.href = "https://www.w3schools.com";
 					$("#messagebox").show()
 					$("#messagebox").html(data.message)
 					$("#messagebox").fadeOut(5000);

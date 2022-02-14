@@ -23,6 +23,7 @@ router.get('/login', (req, res, next) => {
     return res.render('login.ejs');
 });
 
+//create a logged_in page with a link to logout and pass a
 
 
 
@@ -76,7 +77,12 @@ router.get('/users/login', (req, res, next) => {
         if (!checkPassword(password, results[0].password)) {
             return res.status(401).send('Password Is Wrong')
         }
-        res.status(200).send('User Logged In')
+        res.cookie('user', results[0].username, {maxAge: 900000,httpOnly: true})
+        //allow redirects to anywhere
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        return res.redirect('/register')
+
     })
 });
 
