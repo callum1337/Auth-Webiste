@@ -14,7 +14,8 @@ const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
 
-
+//add async
+const async = require('async');
 
 router.get('/register', (req, res, next) => {
 	return res.render('register.ejs');
@@ -67,23 +68,42 @@ router.post('/users/add', function(req, res) {
 router.get('/users/login', (req, res, next) => {
     const email = req.query.email;
     const password = req.query.password;
-    connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+    async.waterfall([
+        function(callback) {
+            connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return res.status(500).send('Internal Error')
+                } else {
+                    if (result.length > 0) {
+                        callback(null, result[0])
+                    } else {
+                        return res.status(404).send('User not found')
+                    }
+                }
+            })
+        },
+        function(user, callback) {
+            if (checkPassword(password, user.password)) {
+                callback(null, user)
+            } else {
+                return res.status(401).send('Wrong password')
+            }
+        }
+    ], function(err, user) {
         if (err) {
+            console.log(err)
             return res.status(500).send('Internal Error')
+        } else {
+            return res.redirect('/underconst')
         }
-        if (results.length === 0) {
-            return res.status(404).send('User Not Found')
-        }
-        if (!checkPassword(password, results[0].password)) {
-            return res.status(401).send('Password Is Wrong')
-        }
-        res.cookie('user', results[0].username, {maxAge: 900000,httpOnly: true})
-        //allow redirects to anywhere
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        return res.redirect('/register')
-
     })
+});
+
+
+//create an underconstruction page
+router.get('/underconst', (req, res, next) => {
+    return res.render('underconst.ejs');
 });
 
 module.exports = router;
