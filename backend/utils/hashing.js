@@ -14,7 +14,7 @@ function checkPassword(password, hash) {
 }
 
 
-module.exports = {
+module.exports.hashing = {
     hashPassword,
     checkPassword
 }

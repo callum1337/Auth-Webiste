@@ -1,12 +1,18 @@
+//Express
 const express = require('express');
 const router = express.Router();
 const connection = require('./connect_sql.js');
-//import the 2 functions from hash.js
-const hash = require('./utils/hash.js');
-const hashPassword = hash.hashPassword;
-const checkPassword = hash.checkPassword;
 
+//Hashing
+const hash = require('./utils/hashing.js');
+const hashPassword = hash.hashing.hashPassword;
+const checkPassword = hash.hashing.checkPassword;
 
+//Webhook Functions
+const webhook = require('./utils/web_logs.js');
+const hook = webhook.web_logs.hook;
+const Webhook = webhook.web_logs.Webhook;
+const MessageBuilder = webhook.web_logs.MessageBuilder;
 
 
 
@@ -19,28 +25,12 @@ router.get('/login', (req, res, next) => {
 
 
 
-//GET OBJECTS\
-//Login Get Method
-router.post('/users/login', (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
-        if (err) {
-            return res.status(500).send('Internal Error')
-        }
-        if (results.length === 0) {
-            return res.status(404).send('User Not Found')
-        }
-        if (!checkPassword(password, results[0].password)) {
-            return res.status(401).send('Password Is Wrong')
-        }
-        res.status(200).send('Login Successful')
-    })
-});
 
 
 
-//POST OBJECTS
+
+
+
 router.post('/users/add', function(req, res) {
     const user = req.body.user
     const password = req.body.password
@@ -73,6 +63,22 @@ router.post('/users/add', function(req, res) {
     })
 });
 
+router.post('/users/login', (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err) {
+            return res.status(500).send('Internal Error')
+        }
+        if (results.length === 0) {
+            return res.status(404).send('User Not Found')
+        }
+        if (!checkPassword(password, results[0].password)) {
+            return res.status(401).send('Password Is Wrong')
+        }
+        res.status(200).send('Login Successful')
+    })
+});
 
 module.exports = router;
 
