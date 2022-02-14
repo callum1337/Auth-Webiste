@@ -98,7 +98,7 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
             })
         },
         function(user, password_hashed, email, callback) {
-            connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
+            connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err) {
                 if (err) {
                     console.log(err)
                     return res.status(500).send('Internal Error')
@@ -117,7 +117,7 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
                 }
             })
         }
-    ], function(err, result) {
+    ], function(err) {
         if (err) {
             console.log(err)
             return res.status(500).send('Internal Error')
@@ -127,7 +127,7 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
     })
 });
 
-router.get('/users/login',  bruteforce.prevent, (req, res, next) => {
+router.get('/users/login',  bruteforce.prevent, (req, res) => {
     const email = req.query.email;
     const password = req.query.password;
     async.waterfall([
@@ -157,6 +157,7 @@ router.get('/users/login',  bruteforce.prevent, (req, res, next) => {
             console.log(err)
             return res.status(500).send('Internal Error')
         } else {
+            console.log(user)
             return res.redirect('/underconst')
         }
     })
