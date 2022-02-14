@@ -1,15 +1,15 @@
 //Express
 const express = require('express');
 const router = express.Router();
-const connection = require('./utils/connect_sql.js');
+const connection = require('../../utils/connect_sql.js');
 
 //Hashing
-const hash = require('./utils/hashing.js');
+const hash = require('../../utils/hashing.js');
 const hashPassword = hash.hashing.hashPassword;
 const checkPassword = hash.hashing.checkPassword;
 
 //Webhook Functions
-const webhook = require('./utils/web_logs.js');
+const webhook = require('../../utils/web_logs.js');
 const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
@@ -157,11 +157,6 @@ router.get('/users/login', (req, res, next) => {
     })
 });
 
-
-//create an underconstruction page
-router.get('/underconst', (req, res, next) => {
-    return res.render('underconst.ejs');
-});
 
 module.exports = router;
 

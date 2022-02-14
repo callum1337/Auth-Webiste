@@ -4,28 +4,22 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="./css/base_log_reg.css">
+	<link rel="stylesheet" href="../css/base_log_reg.css">
 
 	<script type="text/javascript">
 		$(document).ready(() => {
 			$('#messagebox').hide();
 			$("#login-form").submit((event) => {
 				event.preventDefault();
-				$.ajax({
-					
-					type: 'GET',
-					url: '/users/login',
-					data: $('#login-form').serialize(),
-					dataType: "json",
-				}).done((data) => {
-					$("#messagebox").show()
-					$("#messagebox").html(data.message)
-					$("#messagebox").fadeOut(5000);
-				}).fail((data) => {
-					$("#messagebox").show()
-					$("#messagebox").html(data.responseText)
-					$("#messagebox").fadeOut(5000);
-				})
+                fetch("/users/login", {
+                    method: "POST",
+                    data: $('#login-form').serialize(),
+                }).then(data => {
+                    $("#messagebox").show()
+                    $("#messagebox").html(data.message)
+                    $("#messagebox").fadeOut(5000);
+                    window.location.href = "/register"
+                }).catch(console.error);
 			});
 		});
 		(function($) {
