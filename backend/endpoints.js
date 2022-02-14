@@ -63,9 +63,9 @@ router.post('/users/add', function(req, res) {
     })
 });
 
-router.post('/users/login', (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
+router.get('/users/login', (req, res, next) => {
+    const email = req.query.email;
+    const password = req.query.password;
     connection.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
         if (err) {
             return res.status(500).send('Internal Error')
@@ -76,7 +76,7 @@ router.post('/users/login', (req, res, next) => {
         if (!checkPassword(password, results[0].password)) {
             return res.status(401).send('Password Is Wrong')
         }
-        res.status(200).send('Login Successful')
+        res.status(200).send('User Logged In')
     })
 });
 
