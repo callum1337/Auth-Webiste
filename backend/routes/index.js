@@ -4,9 +4,6 @@ const router = express.Router();
 const path = require('path');
 
 
-router.use(express.static(path.resolve(__dirname, "..", "templates")));
-
-
 
 router.use("/auth", require("./auth/auth.js"));
 router.use("/", require("./non-auth/under-const.js"));

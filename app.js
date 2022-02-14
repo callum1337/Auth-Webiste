@@ -9,7 +9,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'templates'));
-app.use(express.static(path.resolve(__dirname, "..", "templates")));
+app.use(express.static(path.resolve(__dirname, "", "templates")));
 
 
 
