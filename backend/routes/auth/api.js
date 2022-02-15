@@ -8,11 +8,6 @@ const hash = require('../../utils/hashing.js');
 const hashPassword = hash.hashing.hashPassword;
 const checkPassword = hash.hashing.checkPassword;
 
-const webhook = require('../../utils/web_logs.js');
-const hook = webhook.web_logs.hook;
-const Webhook = webhook.web_logs.Webhook;
-const MessageBuilder = webhook.web_logs.MessageBuilder;
-
 
 
 
@@ -96,16 +91,9 @@ router.post('/users/login',(req, res) => {
         if (err) {
             return res.status(500).send('Internal Error')
         } else {
-            const token = jwt.sign({
-                id: user.id,
-                username: user.username,
-                email: user.email
-            }, config.secret, {
-                expiresIn: '1h'
-            });
+            const token = jwt.sign({id: user.id,username: user.username,email: user.email}, config.secret, {expiresIn: '1h'});
             res.cookie('token', token);
             res.status(200).send('User logged in')
-            console.log(user)
         }
     })
 });
