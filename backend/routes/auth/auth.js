@@ -4,23 +4,23 @@ const router = express.Router();
 
 
 router.get('/register', (req, res) => {
-    if (req.cookies.token) {
+    if (req.session.user) {
         return res.redirect('/underconst');
     }
-    return res.render('register.ejs');
+    return res.render('register.ejs',{loggedin: false});
 });
 router.get('/login', (req, res) => {
-    console.log(req.cookies)
-    if (req.cookies.token) {
-        return res.redirect('/underconst');
+    if (req.session.user) {
+        return res.redirect('dashboard');
+    } else {
+        return res.render('login.ejs',{loggedin: false});
     }
-    return res.render('login.ejs');
 });
 
 
 router.get('/dashboard', (req, res) => {
     if (req.session.user) {
-        res.render('dashboard.ejs', {username : req.session.user.username});
+        res.render('dashboard.ejs', {userobj : req.session.user, loggedin: true});
     } else {
         res.redirect('/auth/login');
     }
