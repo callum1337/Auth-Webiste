@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../../utils/connect_sql.js');
 const expressBrute = require('express-brute');
-const store = new expressBrute.MemoryStore();
-const bruteforce = new expressBrute(store);
 const async = require('async');
 //Hashing
 const hash = require('../../utils/hashing.js');
@@ -20,16 +18,12 @@ const validator = require('../../utils/email_validator.js');
 const validate = validator.emailValidator.validateEmail;
 
 
-router.post('/users/add',  bruteforce.prevent, function(req, res) {
+router.post('/users/register',  function(req, res) {
+    console.log(req.body);
     const user = req.body.user
     const password = req.body.password
     const email = req.body.email
-    const password_hashed = hashPassword(password)
-
-    //validate email
-    if (!validate.email(email)) {
-        return res.status(400).send('Invalid email');
-    }
+    const password_hashed = hashPassword(password);
     if (password.length < 8) {
         return res.status(400).send('Password must be at least 8 characters long')
     }
@@ -77,11 +71,11 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
             console.log(err)
             return res.status(500).send('Internal Error')
         } else {
-            res.status(201).send('User created')
+            res.status(200).send('User created')
         }
     })
 });
-router.post('/users/login',  bruteforce.prevent, (req, res) => {
+router.post('/users/login',  (req, res) => {
     const email = req.query.email;
     const password = req.query.password;
     async.waterfall([
@@ -117,16 +111,5 @@ router.post('/users/login',  bruteforce.prevent, (req, res) => {
     })
 });
 
-//ddos protection
-router.use(function(req, res, next) {
-    bruteforce.get(req, function(err, data) {
-        if (err) {
-            return next(err);
-        }
-        if (data) {
-            return res.status(429).send('You have exceeded the rate limit');
-        }
-        next();
-    });
-});
+
 module.exports = router;

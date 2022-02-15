@@ -12,13 +12,25 @@
 			$("#login-form").submit((event) => {
 				event.preventDefault();
                 fetch("api/users/login", {
-                    method: "POST",
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					  },
+					method: 'POST',
                     data: $('#login-form').serialize(),
                 }).then(data => {
-                    $("#messagebox").show()
-                    $("#messagebox").html(data.message)
-                    $("#messagebox").fadeOut(5000);
-                    window.location.href = "/underconst"
+					//check response code
+					if(data.status == 200){
+						$("#messagebox").show()
+						$("#messagebox").html('Logged In')
+						$("#messagebox").fadeOut(5000);
+						setTimeout(() => {
+							window.location.href = "/underconst"
+						}, 3000);
+					} else{
+						$("#messagebox").show()
+						$('#messagebox').html('<strong>Error!</strong> Error Has Occured');
+						$("#messagebox").fadeOut(5000);
+					}
                 }).catch(console.error);
 			});
 		});
