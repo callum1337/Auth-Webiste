@@ -98,7 +98,7 @@ router.post('/users/login',(req, res) => {
         if (err) {
             return res.status(500).send('Internal Error')
         } else {
-            res.status(200).send(user)
+            res.status(200)
             console.log(user)
         }
     })
