@@ -21,14 +21,12 @@
 					  method: 'POST',
 					  body: $('#register-form').serialize()
                 }).then(data => {
-					console.log(data.status)
-					//check response code
 					if(data.status == 200){
 						$("#messagebox").show()
 						$("#messagebox").html('User Created')
 						$("#messagebox").fadeOut(5000);
 						setTimeout(() => {
-							window.location.href = "/login"
+							window.location.href = "login"
 						}, 3000);
 					} else{
 						$("#messagebox").show()

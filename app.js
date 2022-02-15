@@ -31,24 +31,22 @@ const limiter = rateLimit({
     max: 5
 });
 
-//log all requests
-app.use(function(req, res, next) {
-    console.log(req.method, req.url);
-    next();
-});
 
 app.use('/auth/api/users', limiter);
 
 const index = require('./backend/routes');
 app.use('/', index);
 
-app.listen(3000, () => {
+app.listen(80, () => {
     console.log('listening on port 80')
 })
 
 
 app.use((req, res, next) => {
-    console.log(`${req.method} request for '${req.url}' - ${JSON.stringify(req.body)}`)
+    const start = Date.now();
+    res.on('finish', () => {
+        console.log(`${req.method} for ${req.url} took ${Date.now() - start} ms`)
+    })
     next()
 })
 

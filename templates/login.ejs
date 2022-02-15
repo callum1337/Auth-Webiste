@@ -10,7 +10,6 @@
 		$(document).ready(() => {
 			$('#messagebox').hide();
 			$("#login-form").submit((event) => {
-				console.log($('#login-form').serialize())
 				event.preventDefault();
 				fetch("users/login", {
                     headers: {
@@ -19,17 +18,15 @@
 					  method: 'POST',
 					  body: $('#login-form').serialize()
                 }).then(data => {
-					console.log(data.status)
 					//check response code
 					if(data.status == 200){
 						$("#messagebox").show()
 						$("#messagebox").html('Logged In')
 						$("#messagebox").fadeOut(5000);
 						setTimeout(() => {
-							window.location.href = "/dashboard"
+							window.location.href = "dashboard"
 						}, 3000);
 					} else{
-						console.log(data)
 						$("#messagebox").show()
 						$('#messagebox').html('<strong>Error!</strong> User Not Found');
 						$("#messagebox").fadeOut(5000);

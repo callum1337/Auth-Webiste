@@ -34,7 +34,6 @@ router.post('/users/register',  function(req, res) {
         function(callback) {
             connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
                 if (err) {
-                    console.log(err)
                     return res.status(500).send('Internal Error')
                 } else{
                     if (result.length > 0) {
@@ -48,7 +47,6 @@ router.post('/users/register',  function(req, res) {
         function(user, password_hashed, email, callback) {
             connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err) {
                 if (err) {
-                    console.log(err)
                     return res.status(500).send('Internal Error')
                 } else {
                     callback(null, user)
@@ -58,7 +56,6 @@ router.post('/users/register',  function(req, res) {
         function(user, callback) {
             connection.query('SELECT * FROM users WHERE username = ?', [user], function(err, result) {
                 if (err) {
-                    console.log(err)
                     return res.status(500).send('Internal Error')
                 } else {
                     callback(null, result[0])
@@ -67,7 +64,6 @@ router.post('/users/register',  function(req, res) {
         }
     ], function(err) {
         if (err) {
-            console.log(err)
             return res.status(500).send('Internal Error')
         } else {
             res.status(200).send('User created')
@@ -81,7 +77,6 @@ router.post('/users/login',(req, res) => {
         function(callback) {
             connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, result) {
                 if (err) {
-                    console.log(err)
                     return res.status(500).send('Internal Error')
                 } else {
                     if (result.length > 0) {
@@ -101,7 +96,6 @@ router.post('/users/login',(req, res) => {
         }
     ], function(err, user) {
         if (err) {
-            console.log(err)
             return res.status(500).send('Internal Error')
         } else {
             console.log(user)
