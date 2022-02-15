@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const path = require('path');
 const cors = require('cors');
-//allow cors
+const cookieParser = require("cookie-parser");
 app.use(cors());
 
 
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(express.static(path.resolve(__dirname, "", "templates")));
 app.use(express.json({limit:'50000mb'}))
-
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'templates'));

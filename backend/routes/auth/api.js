@@ -1,21 +1,19 @@
-//Express
 const express = require('express');
 const router = express.Router();
 const connection = require('../../utils/connect_sql.js');
-const expressBrute = require('express-brute');
 const async = require('async');
-//Hashing
+const jwt = require('jsonwebtoken');
+const config = require('../../config/config.js');
 const hash = require('../../utils/hashing.js');
 const hashPassword = hash.hashing.hashPassword;
 const checkPassword = hash.hashing.checkPassword;
-//Webhook Functions
+
 const webhook = require('../../utils/web_logs.js');
 const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
-//Validation
-const validator = require('../../utils/email_validator.js');
-const validate = validator.emailValidator.validateEmail;
+
+
 
 
 router.post('/users/register',  function(req, res) {
@@ -98,7 +96,15 @@ router.post('/users/login',(req, res) => {
         if (err) {
             return res.status(500).send('Internal Error')
         } else {
-            res.status(200)
+            const token = jwt.sign({
+                id: user.id,
+                username: user.username,
+                email: user.email
+            }, config.secret, {
+                expiresIn: '1h'
+            });
+            res.cookie('token', token);
+            res.status(200).send('User logged in')
             console.log(user)
         }
     })
