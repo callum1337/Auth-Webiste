@@ -16,14 +16,16 @@ const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
 //Validation
-const validator = require('../../utils/validation.js');
-const validate = validator.validation.validate;
+const validator = require('../../utils/email_validator.js');
+const validate = validator.emailValidator.validateEmail;
 
 
 router.post('/users/add',  bruteforce.prevent, function(req, res) {
     const user = req.body.user
     const password = req.body.password
     const email = req.body.email
+    const password_hashed = hashPassword(password)
+
     //validate email
     if (!validate.email(email)) {
         return res.status(400).send('Invalid email');
@@ -51,7 +53,6 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
             })
         },
         function(user, password_hashed, email, callback) {
-            const password_hashed = hashPassword(password)
             connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err) {
                 if (err) {
                     console.log(err)
