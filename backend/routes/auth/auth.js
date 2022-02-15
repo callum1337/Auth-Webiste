@@ -111,7 +111,7 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
     })
 });
 
-router.get('/users/login',  bruteforce.prevent, (req, res) => {
+router.post('/users/login',  bruteforce.prevent, (req, res) => {
     const email = req.query.email;
     const password = req.query.password;
     async.waterfall([
