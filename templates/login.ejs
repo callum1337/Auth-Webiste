@@ -11,7 +11,7 @@
 			$('#messagebox').hide();
 			$("#login-form").submit((event) => {
 				event.preventDefault();
-                fetch("/users/login", {
+                fetch("api/users/login", {
                     method: "POST",
                     data: $('#login-form').serialize(),
                 }).then(data => {

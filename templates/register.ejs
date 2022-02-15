@@ -13,7 +13,7 @@
 			$('#messagebox').hide();
 			$("#register-form").submit((event) => {
 				event.preventDefault();
-				fetch("/users/register", {
+				fetch("api/users/register", {
                     method: "POST",
                     data: $('#register-form').serialize(),
                 }).then(data => {

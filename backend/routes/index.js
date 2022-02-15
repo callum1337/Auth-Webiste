@@ -5,6 +5,7 @@ const path = require('path');
 
 
 router.use("/auth", require("./auth/auth.js"));
+router.use("/auth/api", require("./auth/api.js"));
 router.use("/", require("./non-auth/under-const.js"));
 module.exports = router;
 
