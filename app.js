@@ -4,8 +4,13 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
+const session_config = require('./backend/config/config.js');
 
-
+app.use(require("express-session")({
+    secret: session_config.secret,
+    resave: false,
+    saveUninitialized: false
+}));
 app.use(cors({
     origin: 'http://localhost:80',
     credentials: true

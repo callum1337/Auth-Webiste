@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../../utils/connect_sql.js');
 const async = require('async');
-const jwt = require('jsonwebtoken');
 const config = require('../../config/config.js');
 const hash = require('../../utils/hashing.js');
 const hashPassword = hash.hashing.hashPassword;
 const checkPassword = hash.hashing.checkPassword;
+
+
 
 
 
@@ -91,10 +92,16 @@ router.post('/users/login',(req, res) => {
         if (err) {
             return res.status(500).send('Internal Error')
         } else {
-            const token = jwt.sign({id: user.id,username: user.username,email: user.email}, config.secret, {expiresIn: '1h'});
-            res.cookie('token', token);
-            res.status(200).send('User logged in')
-        }
+            const session = req.session;
+            session.user = user;
+            session.save(function(err) {
+                if (err) {
+                    return res.status(500).send('Internal Error')
+                } else {
+                    res.status(200).send('User logged in')
+                    console.log(session)
+                }});
+            }
     })
 });
 

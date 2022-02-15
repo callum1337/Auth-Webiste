@@ -17,6 +17,11 @@ router.get('/login', (req, res) => {
     return res.render('login.ejs');
 });
 
+
+router.get('/dashboard', (req, res) => {
+    console.log(req.session)
+    res.send(req.session)
+});
 module.exports = router;
 
 
