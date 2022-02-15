@@ -18,5 +18,9 @@ router.use("/", require("./non-auth/under-const.js"));
 router.use(cors());
 module.exports = router;
 
+//handle 404
+router.use(function(req, res, next) {
+    res.status(404).send("Sorry can't find that!")
+});
 
 

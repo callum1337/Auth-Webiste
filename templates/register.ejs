@@ -6,13 +6,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../css/base_log_reg.css">
+	<link rel="stylesheet" href="../css/base_login_reg_partials.css">
 
 	<script type="text/javascript">
 		$(document).ready(() => {
 			$('#messagebox').hide();
 			$("#register-form").submit((event) => {
-				//parse json
 				event.preventDefault();
 				fetch("users/register", {
                     headers: {
@@ -28,9 +27,14 @@
 						setTimeout(() => {
 							window.location.href = "login"
 						}, 3000);
-					} else{
+					} else if(data.status == 429){
 						$("#messagebox").show()
-						$('#messagebox').html('<strong>Error!</strong> Error Has Occured');
+						$("#messagebox").html('You Are Rate Liumited')
+						$("#messagebox").fadeOut(5000);
+					}
+					else{
+						$("#messagebox").show()
+						$("#messagebox").html('User Already Exists')
 						$("#messagebox").fadeOut(5000);
 					}
                 }).catch(console.error);
@@ -82,8 +86,7 @@
 				<input type="submit" name="submit" id="submitform" value="Register" class="btn">
 			</div>
 		</form>
-		<a href="/login">Login Instead</a>
-
+		<a href="login">Login Instead</a>
 	</div>
 
 </body>

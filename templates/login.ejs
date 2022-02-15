@@ -4,7 +4,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../css/base_log_reg.css">
+	<link rel="stylesheet" href="../css/base_login_reg_partials.css">
 
 	<script type="text/javascript">
 		$(document).ready(() => {
@@ -18,7 +18,6 @@
 					  method: 'POST',
 					  body: $('#login-form').serialize()
                 }).then(data => {
-					//check response code
 					if(data.status == 200){
 						$("#messagebox").show()
 						$("#messagebox").html('Logged In')
@@ -26,9 +25,14 @@
 						setTimeout(() => {
 							window.location.href = "dashboard"
 						}, 3000);
-					} else{
+					} else if(data.status == 429){
 						$("#messagebox").show()
-						$('#messagebox').html('<strong>Error!</strong> User Not Found');
+						$("#messagebox").html('You Are Rate Liumited')
+						$("#messagebox").fadeOut(5000);
+					}
+					else{
+						$("#messagebox").show()
+						$("#messagebox").html('Incorrect username or password')
 						$("#messagebox").fadeOut(5000);
 					}
                 }).catch(console.error);
@@ -76,7 +80,7 @@
 			</div>
 		</form>
         <br>
-        <a href="/register">Sign Up Instead</a>
+        <a href="register">Sign Up Instead</a>
 	</div>
 
 </body>

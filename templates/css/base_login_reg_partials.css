@@ -132,6 +132,10 @@ body {
   }
 }
 
+
+/* 
+ERROR BOX
+*/
 .error-notice{
   margin:5px; /* Make sure to keep some distance from all sides */
 }
@@ -148,18 +152,6 @@ body {
   text-align: center;
 }
 
-.oaerror2{
-
-  width:80%;
-  background-color: #ffffff;
-  padding:20px;
-  border-left-width:5px;
-  border-radius: 3px;
-  margin:10px auto;
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-}
 .danger{
   border-left-color: #ff0800; /* Left side border color */
   background-color: rgb(255, 8, 0); /*Same color as the left border with reduced alpha to 0.1*/
@@ -199,7 +191,10 @@ body {
   color: #ffffff;
 }
 
+/*
+NAVIGATION BAR
 
+ */
 .navigation {
   height: 70px;
   background: rgba(0,0,0,.5);
@@ -336,17 +331,4 @@ nav ul li ul li a {
 #nav-toggle.active span:after {
   transform: rotate(-45deg);
 }
-article {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10px;
-}
 
-
-.tableofusers{
-  border-collapse: collapse;
-  padding: 10px;
-  word-spacing: 10px;
-  border-spacing: 0;
-  margin-bottom: 20px;
-}
