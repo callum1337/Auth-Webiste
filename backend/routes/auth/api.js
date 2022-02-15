@@ -93,6 +93,7 @@ router.post('/users/login',(req, res) => {
             return res.status(500).send('Internal Error')
         } else {
             const session = req.session;
+            console.log(user)
             session.user = user;
             session.save(function(err) {
                 if (err) {

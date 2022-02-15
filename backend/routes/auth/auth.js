@@ -19,8 +19,11 @@ router.get('/login', (req, res) => {
 
 
 router.get('/dashboard', (req, res) => {
-    console.log(req.session)
-    res.send(req.session)
+    if (req.session.user) {
+        res.render('dashboard.ejs', {username : req.session.user.username});
+    } else {
+        res.redirect('/auth/login');
+    }
 });
 module.exports = router;
 
