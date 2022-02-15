@@ -5,25 +5,21 @@ const connection = require('../../utils/connect_sql.js');
 const expressBrute = require('express-brute');
 const store = new expressBrute.MemoryStore();
 const bruteforce = new expressBrute(store);
-
-
-
-
+const async = require('async');
 //Hashing
 const hash = require('../../utils/hashing.js');
 const hashPassword = hash.hashing.hashPassword;
 const checkPassword = hash.hashing.checkPassword;
-
 //Webhook Functions
 const webhook = require('../../utils/web_logs.js');
 const hook = webhook.web_logs.hook;
 const Webhook = webhook.web_logs.Webhook;
 const MessageBuilder = webhook.web_logs.MessageBuilder;
+//Validation
+const validator = require('../../utils/validation.js');
+const validate = validator.validation.validate;
 
-console.log(hook, Webhook, MessageBuilder);
 
-//add async
-const async = require('async');
 
 router.get('/register', (req, res) => {
 	return res.render('register.ejs');
@@ -37,53 +33,38 @@ router.get('/login', (req, res) => {
 
 
 
-
+//ddos protection
+router.use(function(req, res, next) {
+    bruteforce.get(req, function(err, data) {
+        if (err) {
+            return next(err);
+        }
+        if (data) {
+            return res.status(429).send('You have exceeded the rate limit');
+        }
+        next();
+    });
+});
 
 
 //router.post('/users/add', function(req, res) {
-//    const user = req.body.user
-//    const password = req.body.password
-//    if (password.length < 8) {
-//        return res.status(400).send('Password must be at least 8 characters long')
-//    }
-//    if (user.length < 3) {
-//        return res.status(400).send('Username must be at least 3 characters long')
-//    }
-//    const password_hashed = hashPassword(password)
-//    const email = req.body.email
-//    connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
-//        if (err) {
-//            console.log(err)
-//            return res.status(500).send('Internal Error')
-//        } else{
-//            if (result.length > 0) {
-//                res.status(409).send('User already exists')
-//            } else {
-//                connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err, result) {
-//                    if (err) {
-//                        console.log(err)
-//                        return res.status(500).send('Internal Error')
-//                    } else {
-//                        res.status(201).send('User created')
-//                    }
-//                })
-//            }
-//        }
-//    })
-//});
 
 
 router.post('/users/add',  bruteforce.prevent, function(req, res) {
     const user = req.body.user
     const password = req.body.password
+    const email = req.body.email
+    //validate email
+    if (!validate.email(email)) {
+        return res.status(400).send('Invalid email');
+    }
     if (password.length < 8) {
         return res.status(400).send('Password must be at least 8 characters long')
     }
     if (user.length < 3) {
         return res.status(400).send('Username must be at least 3 characters long')
     }
-    const password_hashed = hashPassword(password)
-    const email = req.body.email
+    //make
     async.waterfall([
         function(callback) {
             connection.query('SELECT * FROM users WHERE username = ? OR email = ?', [user, email], function(err, result) {
@@ -100,6 +81,7 @@ router.post('/users/add',  bruteforce.prevent, function(req, res) {
             })
         },
         function(user, password_hashed, email, callback) {
+            const password_hashed = hashPassword(password)
             connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [user, password_hashed, email], function(err) {
                 if (err) {
                     console.log(err)
