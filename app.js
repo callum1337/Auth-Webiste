@@ -32,7 +32,7 @@ const limiter = rateLimit({
 });
 
 
-app.use('/auth/api/users', limiter);
+app.use('/auth/users', limiter);
 
 const index = require('./backend/routes');
 app.use('/', index);
