@@ -19,7 +19,6 @@ const validate = validator.emailValidator.validateEmail;
 
 
 router.post('/users/register',  function(req, res) {
-    console.log(req.body);
     const user = req.body.user
     const password = req.body.password
     const email = req.body.email
@@ -75,9 +74,9 @@ router.post('/users/register',  function(req, res) {
         }
     })
 });
-router.post('/users/login',  (req, res) => {
-    const email = req.query.email;
-    const password = req.query.password;
+router.post('/users/login',(req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
     async.waterfall([
         function(callback) {
             connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, result) {
@@ -88,7 +87,7 @@ router.post('/users/login',  (req, res) => {
                     if (result.length > 0) {
                         callback(null, result[0])
                     } else {
-                        return res.status(404).send('User not found')
+                        return res.status(401).send('User not found')
                     }
                 }
             })
